@@ -40,6 +40,12 @@ Se `produtos.preco_revenda` estiver preenchido, vale ele (exceção por produto)
 - Token do EAS: credencial de rede do ambiente de nuvem (host api.expo.dev), nunca em arquivo. Comandos: `EXPO_TOKEN=proxy-injected npx eas-cli@latest build -p android --profile preview --non-interactive`.
 - Edge Function `processar-fila-push` publicada (verify_jwt=false, protegida por x-push-segredo). Canal Android "avisos".
 
+## 5.1 Painel web (10/11/2026)
+- Pasta `painel/` (Vite + React, site estático). Publicado em https://julianaprado-painel.expo.app (EAS Hosting; workflow `.eas/workflows/publicar-painel.yml`).
+- Hoje só a aba **Notificações**: login, enviar aviso para todos os aparelhos (título, texto, foto recortada 2:1 em JPEG, destino ao tocar), prévia, histórico com status de entrega. Só `perfis.tipo = 'admin'` entra.
+- Deploy manual: `cd painel && npm run build` e na raiz `EXPO_TOKEN=proxy-injected npx eas-cli@latest deploy --export-dir painel/dist --prod --non-interactive --dev-domain julianaprado-painel` (precisa do host eas.expo.app liberado no ambiente de nuvem).
+- Aviso: o status "entregue" significa que a Expo aceitou o envio; a função ainda não confere os recibos da Expo/FCM.
+
 ## 6. Pendências
 - Firebase (google-services.json + chave FCM V1 no expo.dev) para o push chegar no celular → exige APK novo.
 - Fotos e dados reais (exportar CSV do Bubble: Produtos, Categorias). Catálogo atual veio dos prints (supabase/dados/).
