@@ -7,7 +7,9 @@
     "icon": "./assets/images/icon.png",
     "scheme": "julianaprado",
     "userInterfaceStyle": "light",
-    "runtimeVersion": { "policy": "fingerprint" },
+    "runtimeVersion": {
+      "policy": "fingerprint"
+    },
     "ios": {
       "bundleIdentifier": "br.com.julianaprado.app",
       "supportsTablet": false
@@ -63,6 +65,20 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "owner": "carlosaraujo1308s-team",
+    "extra": {
+      "router": {
+        "asyncRoutes": {
+          "web": true
+        }
+      },
+      "eas": {
+        "projectId": "e2e6ec4d-f4dc-4a97-af48-07e1897452af"
+      }
+    },
+    "updates": {
+      "url": "https://u.expo.dev/e2e6ec4d-f4dc-4a97-af48-07e1897452af"
     }
   }
 }
