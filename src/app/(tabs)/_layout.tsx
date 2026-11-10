@@ -21,7 +21,7 @@ export default function LayoutAbas() {
         headerShown: false,
         tabBarActiveTintColor: cores.douradoEscuro,
         tabBarInactiveTintColor: '#9B9298',
-        tabBarStyle: { backgroundColor: cores.branco, borderTopColor: cores.linha, height: undefined },
+        tabBarStyle: { backgroundColor: cores.branco, borderTopColor: cores.linha },
         tabBarLabelStyle: { fontFamily: fontes.textoMedio, fontSize: 11 },
         tabBarBadgeStyle: { backgroundColor: cores.dourado, color: cores.branco, fontFamily: fontes.textoForte, fontSize: 10 },
         sceneStyle: { backgroundColor: cores.creme },

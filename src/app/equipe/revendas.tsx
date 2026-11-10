@@ -41,7 +41,7 @@ export default function Revendas() {
         <FlatList
           data={q.data ?? []}
           keyExtractor={(p) => p.id}
-          contentContainerStyle={{ padding: espaco.lg, gap: espaco.md }}
+          contentContainerStyle={{ padding: espaco.lg, gap: espaco.md, paddingBottom: 80 }}
           refreshing={q.isRefetching}
           onRefresh={q.refetch}
           ListEmptyComponent={<Vazio icone="checkmark-done-outline" titulo="Tudo em dia" texto="Nenhum pedido de revenda esperando." />}

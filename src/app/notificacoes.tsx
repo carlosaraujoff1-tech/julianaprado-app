@@ -20,7 +20,7 @@ export default function Notificacoes() {
         <FlatList
           data={q.data ?? []}
           keyExtractor={(n) => n.id}
-          contentContainerStyle={{ padding: espaco.lg, gap: espaco.md }}
+          contentContainerStyle={{ padding: espaco.lg, gap: espaco.md, paddingBottom: 80 }}
           refreshing={q.isRefetching}
           onRefresh={q.refetch}
           ListEmptyComponent={<Vazio icone="notifications-outline" titulo="Nada por aqui" texto="Ofertas, cupons e novidades dos seus pedidos aparecem aqui." />}
