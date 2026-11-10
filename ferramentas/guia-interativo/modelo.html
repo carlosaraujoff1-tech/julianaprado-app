@@ -1,0 +1,410 @@
+<title>App Juliana Prado</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: lista de telas | celular com as telas reais | painel que explica o que foi tocado */
+:root {
+  --fundo: #ECEAEC;
+  --superficie: #FFFFFF;
+  --superficie-2: #F6F4F5;
+  --tinta: #2A2629;
+  --suave: #6C6469;
+  --linha: #DCD7DA;
+  --ouro: #9C7C30;
+  --ouro-forte: #B8994A;
+  --ouro-fundo: #F3ECDC;
+  --grafite: #3A3539;
+  --ok: #2E7D4F; --ok-fundo: #E3F1E8;
+  --ressalva: #9A6A00; --ressalva-fundo: #FBF0D6;
+  --nao: #B3261E; --nao-fundo: #F9E3E1;
+  --futuro: #4D5B7A; --futuro-fundo: #E6EAF2;
+  --display: "Cormorant Garamond", "Times New Roman", serif;
+  --texto: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --fundo: #171517; --superficie: #232023; --superficie-2: #2B282B; --tinta: #F0ECEF; --suave: #A9A0A6;
+    --linha: #3A353A; --ouro: #D2B061; --ouro-forte: #CFAE5E; --ouro-fundo: #3A3222; --grafite: #0E0D0E;
+    --ok: #7CCB98; --ok-fundo: #1E3427; --ressalva: #E8BE5C; --ressalva-fundo: #3A2F14;
+    --nao: #F09088; --nao-fundo: #3D1F1D; --futuro: #A8B6D6; --futuro-fundo: #252C3B;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --fundo: #171517; --superficie: #232023; --superficie-2: #2B282B; --tinta: #F0ECEF; --suave: #A9A0A6;
+  --linha: #3A353A; --ouro: #D2B061; --ouro-forte: #CFAE5E; --ouro-fundo: #3A3222; --grafite: #0E0D0E;
+  --ok: #7CCB98; --ok-fundo: #1E3427; --ressalva: #E8BE5C; --ressalva-fundo: #3A2F14;
+  --nao: #F09088; --nao-fundo: #3D1F1D; --futuro: #A8B6D6; --futuro-fundo: #252C3B;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  background: var(--fundo); color: var(--tinta); font-family: var(--texto); font-size: 14px; line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--ouro-forte); outline-offset: 2px; }
+
+.topo { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 24px; padding-block: 18px 14px; }
+.marca { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+.marca h1 { margin: 0; font-family: var(--display); font-weight: 600; font-size: 30px; letter-spacing: 0.08em; line-height: 1; text-transform: uppercase; }
+.marca span { color: var(--suave); font-size: 13px; }
+.legenda { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.legenda small { color: var(--suave); margin-right: 2px; }
+
+.chip { display: inline-flex; align-items: center; gap: 6px; border-radius: 999px; padding: 3px 10px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+.chip::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.chip.ok { color: var(--ok); background: var(--ok-fundo); }
+.chip.ressalva { color: var(--ressalva); background: var(--ressalva-fundo); }
+.chip.nao { color: var(--nao); background: var(--nao-fundo); }
+.chip.futuro { color: var(--futuro); background: var(--futuro-fundo); }
+.chip b { font-variant-numeric: tabular-nums; }
+
+.palco { display: grid; grid-template-columns: 236px minmax(0, 1fr) 400px; gap: 20px; align-items: start; padding-bottom: 24px; }
+
+/* Lista de telas */
+.trilho { position: sticky; top: 12px; max-height: calc(100vh - 24px); overflow: auto; background: var(--superficie); border: 1px solid var(--linha); border-radius: 14px; padding: 10px; }
+.grupo + .grupo { margin-top: 10px; }
+.grupo h2 { margin: 6px 8px; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--suave); font-weight: 600; }
+.trilho ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.trilho button { width: 100%; text-align: left; border: 0; background: none; border-radius: 8px; padding: 7px 8px; cursor: pointer; display: flex; justify-content: space-between; gap: 8px; }
+.trilho button:hover { background: var(--superficie-2); }
+.trilho button[aria-current="true"] { background: var(--ouro-fundo); color: var(--tinta); font-weight: 600; }
+.trilho button small { color: var(--suave); font-variant-numeric: tabular-nums; font-weight: 400; }
+
+/* Celular */
+.centro { display: flex; flex-direction: column; align-items: center; gap: 12px; min-width: 0; }
+.controles { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.botao { border: 1px solid var(--linha); background: var(--superficie); border-radius: 999px; padding: 7px 14px; cursor: pointer; font-weight: 500; font-size: 13px; }
+.botao:hover { border-color: var(--ouro-forte); }
+.botao[aria-pressed="true"] { background: var(--grafite); color: #fff; border-color: var(--grafite); }
+.botao:disabled { opacity: .45; cursor: default; }
+.caixa-celular { position: relative; }
+.celular { position: absolute; top: 0; left: 0; width: 431px; height: 967px; transform-origin: top left; border-radius: 64px; background: #121012; padding: 19px; box-shadow: 0 0 0 2px #4a4549, 0 30px 60px -20px rgba(0,0,0,.45); }
+.tela-celular { position: relative; width: 393px; height: 929px; border-radius: 46px; overflow: hidden; background: #FAF7F2; }
+.barra-status { position: absolute; inset: 0 0 auto; height: 47px; display: flex; align-items: center; justify-content: space-between; padding: 0 30px 0 44px; font: 600 16px/1 -apple-system, "SF Pro Text", var(--texto); z-index: 5; }
+.barra-status svg { display: block; }
+.ilha { position: absolute; top: 11px; left: 50%; width: 122px; height: 35px; margin-left: -61px; background: #000; border-radius: 20px; z-index: 6; }
+.barra-base { position: absolute; left: 0; right: 0; bottom: 0; height: 30px; }
+.indicador { position: absolute; bottom: 8px; left: 50%; width: 134px; height: 5px; margin-left: -67px; border-radius: 3px; background: rgba(0,0,0,.75); z-index: 6; pointer-events: none; }
+.conteudo { position: absolute; left: 0; top: 47px; width: 393px; height: 852px; }
+.camada { position: absolute; left: 0; width: 393px; background-repeat: no-repeat; }
+.rolagem { position: absolute; left: 0; width: 393px; overflow-y: auto; overflow-x: hidden; scrollbar-width: none; overscroll-behavior: contain; }
+.rolagem::-webkit-scrollbar { display: none; }
+.dica-rolar { position: absolute; left: 50%; bottom: 74px; transform: translateX(-50%); background: rgba(42,38,41,.88); color: #fff; font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: 999px; pointer-events: none; z-index: 4; transition: opacity .3s; }
+
+.area { position: absolute; border: 1.5px dashed transparent; border-radius: 10px; background: transparent; cursor: pointer; padding: 0; z-index: 2; transition: background-color .12s, border-color .12s, box-shadow .12s; }
+.mostrar .area { border-color: color-mix(in srgb, var(--cor) 70%, transparent); background: color-mix(in srgb, var(--cor) 7%, transparent); }
+.area:hover { background: color-mix(in srgb, var(--cor) 16%, transparent); border-color: var(--cor); }
+.area[aria-pressed="true"] { border: 2.5px solid var(--cor); background: color-mix(in srgb, var(--cor) 14%, transparent); box-shadow: 0 0 0 4px color-mix(in srgb, var(--cor) 25%, transparent); z-index: 3; }
+.area .n { position: absolute; top: -9px; left: -9px; min-width: 20px; height: 20px; border-radius: 10px; background: var(--cor); color: #fff; font: 700 11px/20px var(--texto); text-align: center; padding: 0 5px; display: none; box-shadow: 0 1px 3px rgba(0,0,0,.3); }
+.mostrar .area .n, .area[aria-pressed="true"] .n { display: block; }
+.area.ok { --cor: #2E7D4F; } .area.ressalva { --cor: #C28A0F; } .area.nao { --cor: #C62828; } .area.futuro { --cor: #4D5B7A; }
+.area.futuro { border-style: dotted; }
+.instrucao { color: var(--suave); font-size: 12.5px; text-align: center; max-width: 440px; margin: 0; }
+
+/* Painel */
+.painel { position: sticky; top: 12px; max-height: calc(100vh - 24px); overflow: auto; display: grid; gap: 14px; min-width: 0; }
+.cartao { background: var(--superficie); border: 1px solid var(--linha); border-radius: 14px; padding: 16px 18px; min-width: 0; }
+.cartao h2 { margin: 0; font-family: var(--display); font-weight: 600; font-size: 28px; line-height: 1.1; text-wrap: balance; }
+.cartao h3 { margin: 0 0 6px; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--suave); font-weight: 600; }
+.cartao p { margin: 0; }
+.perfil { color: var(--ouro); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; margin-bottom: 6px; }
+.resumo-tela { color: var(--suave); margin-top: 8px !important; }
+.contagem { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.detalhe { border-color: var(--ouro-forte); box-shadow: 0 0 0 3px color-mix(in srgb, var(--ouro-forte) 18%, transparent); }
+.detalhe .cab { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 8px; }
+.detalhe h4 { margin: 0; font-size: 17px; line-height: 1.3; }
+.detalhe .numero { display: inline-grid; place-items: center; min-width: 24px; height: 24px; border-radius: 12px; background: var(--grafite); color: #fff; font-size: 12px; font-weight: 700; margin-right: 8px; vertical-align: 2px; }
+.detalhe p { font-size: 14.5px; line-height: 1.6; max-width: 65ch; }
+.ir { margin-top: 12px; display: inline-flex; align-items: center; gap: 8px; border: 0; background: var(--grafite); color: #fff; border-radius: 10px; padding: 9px 14px; font-weight: 600; cursor: pointer; }
+.ir:hover { background: #000; }
+.vazio-detalhe { color: var(--suave); }
+.lista-areas { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.lista-areas button { width: 100%; display: grid; grid-template-columns: 26px minmax(0, 1fr) auto; gap: 8px; align-items: center; text-align: left; border: 0; background: none; padding: 7px 6px; border-radius: 8px; cursor: pointer; }
+.lista-areas button:hover { background: var(--superficie-2); }
+.lista-areas button[aria-current="true"] { background: var(--ouro-fundo); }
+.lista-areas .num { width: 22px; height: 22px; border-radius: 11px; display: grid; place-items: center; font-size: 11px; font-weight: 700; color: #fff; font-variant-numeric: tabular-nums; }
+.lista-areas .titulo { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.num.ok { background: #2E7D4F; } .num.ressalva { background: #C28A0F; } .num.nao { background: #C62828; } .num.futuro { background: #4D5B7A; }
+.lista-areas .chip { font-size: 11px; padding: 2px 8px; }
+details.falta summary { cursor: pointer; font-weight: 600; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+details.falta summary::-webkit-details-marker { display: none; }
+details.falta summary::after { content: "+"; font-size: 18px; color: var(--suave); }
+details.falta[open] summary::after { content: "−"; }
+details.falta ul { margin: 12px 0 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+details.falta li b { display: block; font-size: 13.5px; }
+details.falta li span { color: var(--suave); font-size: 13px; }
+.rodape { color: var(--suave); font-size: 12px; padding-block: 0 24px; }
+
+@media (max-width: 1180px) {
+  .palco { grid-template-columns: minmax(0, 1fr) 380px; }
+  .trilho { grid-column: 1 / -1; position: static; max-height: none; display: flex; gap: 14px; overflow-x: auto; }
+  .grupo + .grupo { margin-top: 0; }
+  .grupo { flex: 0 0 auto; }
+  .trilho ol { display: flex; gap: 4px; }
+  .trilho button { white-space: nowrap; }
+  .trilho button small { display: none; }
+}
+@media (max-width: 820px) {
+  .palco { grid-template-columns: minmax(0, 1fr); }
+  .painel { position: static; max-height: none; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+</style>
+
+<header class="topo">
+  <div class="marca">
+    <h1>Juliana Prado</h1>
+    <span>Guia interativo do app · telas reais capturadas em 10/11/2026</span>
+  </div>
+  <div class="legenda" aria-label="Legenda">
+    <small>Situação:</small>
+    <span class="chip ok">Funciona</span>
+    <span class="chip ressalva">Funciona com ressalva</span>
+    <span class="chip nao">Ainda não funciona</span>
+    <span class="chip futuro">Ainda não existe</span>
+  </div>
+</header>
+
+<main class="palco">
+  <nav class="trilho" id="trilho" aria-label="Telas do app"></nav>
+
+  <section class="centro" aria-label="Celular">
+    <div class="controles">
+      <button class="botao" id="voltar" type="button" disabled>← Tela anterior</button>
+      <button class="botao" id="mostrar" type="button" aria-pressed="true">Mostrar áreas clicáveis</button>
+    </div>
+    <div class="caixa-celular" id="caixa">
+      <div class="celular" id="celular">
+        <div class="tela-celular" id="telaCelular">
+          <div class="barra-status" id="barraStatus">
+            <span>9:41</span>
+            <span style="display:flex;gap:6px;align-items:center" aria-hidden="true">
+              <svg width="18" height="12" viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="1" fill="currentColor"/><rect x="5" y="5.5" width="3" height="6.5" rx="1" fill="currentColor"/><rect x="10" y="3" width="3" height="9" rx="1" fill="currentColor"/><rect x="15" y="0" width="3" height="12" rx="1" fill="currentColor"/></svg>
+              <svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 11.5 5.6 9a3.4 3.4 0 0 1 4.8 0L8 11.5Zm-4.2-4.3L2.2 5.6a8.2 8.2 0 0 1 11.6 0l-1.6 1.6a5.9 5.9 0 0 0-8.4 0ZM0.6 4 0 3.4a11 11 0 0 1 16 0L15.4 4 14 2.8a9.4 9.4 0 0 0-12 0Z" fill="currentColor"/></svg>
+              <svg width="27" height="13" viewBox="0 0 27 13"><rect x="0.5" y="0.5" width="23" height="12" rx="3.5" fill="none" stroke="currentColor" opacity=".45"/><rect x="2" y="2" width="20" height="9" rx="2.2" fill="currentColor"/><rect x="24.6" y="4.3" width="1.8" height="4.4" rx="0.9" fill="currentColor" opacity=".5"/></svg>
+            </span>
+          </div>
+          <div class="ilha" aria-hidden="true"></div>
+          <div class="conteudo mostrar" id="conteudo"></div>
+          <div class="barra-base" id="barraBase" aria-hidden="true"></div>
+          <div class="indicador" aria-hidden="true"></div>
+        </div>
+      </div>
+    </div>
+    <p class="instrucao">Clique em qualquer parte da tela para ver o que ela faz. Clique duas vezes (ou use o botão no painel) para seguir para a próxima tela. Telas compridas rolam dentro do celular.</p>
+  </section>
+
+  <aside class="painel" aria-live="polite">
+    <div class="cartao" id="cartaoTela"></div>
+    <div class="cartao detalhe" id="cartaoDetalhe"></div>
+    <div class="cartao">
+      <h3>Tudo nesta tela</h3>
+      <ol class="lista-areas" id="listaAreas"></ol>
+    </div>
+    <div class="cartao">
+      <details class="falta" id="falta">
+        <summary>O que ainda falta no app</summary>
+        <ul id="listaFalta"></ul>
+      </details>
+    </div>
+  </aside>
+</main>
+<footer class="rodape">As telas são fotos do app real (versão de navegador, mesmos dados do banco), com contas e pedido de demonstração. No celular as fontes e o visual são os mesmos.</footer>
+
+<script id="dados" type="application/json">__DADOS__</script>
+<script>
+(function () {
+  const D = JSON.parse(document.getElementById('dados').textContent);
+  const telas = Object.fromEntries(D.telas.map((t) => [t.id, t]));
+  const ROTULO = { ok: 'Funciona', ressalva: 'Funciona com ressalva', nao: 'Ainda não funciona', futuro: 'Ainda não existe' };
+  const grupoDe = {};
+  D.meta.grupos.forEach((g) => g.telas.forEach((id) => { grupoDe[id] = g.nome; }));
+  const $ = (id) => document.getElementById(id);
+  let atual = null, selecionada = -1, historico = [];
+
+  // Lista de telas
+  const trilho = $('trilho');
+  D.meta.grupos.forEach((g) => {
+    const div = document.createElement('div'); div.className = 'grupo';
+    div.innerHTML = '<h2></h2><ol></ol>';
+    div.querySelector('h2').textContent = g.nome;
+    g.telas.filter((id) => telas[id]).forEach((id) => {
+      const li = document.createElement('li');
+      const b = document.createElement('button'); b.type = 'button'; b.dataset.id = id;
+      const nome = document.createElement('span'); nome.textContent = (D.meta.telas[id] || [id])[0];
+      const qtd = document.createElement('small'); qtd.textContent = telas[id].areas.length;
+      b.append(nome, qtd);
+      b.addEventListener('click', () => abrir(id, true));
+      li.append(b); div.querySelector('ol').append(li);
+    });
+    trilho.append(div);
+  });
+
+  // Pendências
+  D.meta.pendencias.forEach(([t, d]) => {
+    const li = document.createElement('li');
+    const b = document.createElement('b'); b.textContent = t;
+    const s = document.createElement('span'); s.textContent = d;
+    li.append(b, s); $('listaFalta').append(li);
+  });
+
+  // Escala do celular para caber na tela
+  function ajustar() {
+    const larg = Math.min($('caixa').parentElement.clientWidth, 431);
+    const alt = Math.max(window.innerHeight - 150, 520);
+    const e = Math.min(1, larg / 431, alt / 967);
+    $('celular').style.transform = 'scale(' + e + ')';
+    $('caixa').style.width = (431 * e) + 'px';
+    $('caixa').style.height = (967 * e) + 'px';
+  }
+  window.addEventListener('resize', ajustar);
+
+  function corTexto(rgb) {
+    const m = (rgb || '').match(/\d+/g); if (!m) return '#000';
+    const [r, g, b] = m.map(Number); return (0.299 * r + 0.587 * g + 0.114 * b) > 150 ? '#111' : '#fff';
+  }
+
+  function camada(t, y0, h) {
+    const d = document.createElement('div');
+    d.className = 'camada';
+    d.style.height = h + 'px';
+    d.style.backgroundImage = 'url("' + t.arq + '")';
+    d.style.backgroundSize = '393px ' + t.altura + 'px';
+    d.style.backgroundPosition = '0 ' + (-y0) + 'px';
+    return d;
+  }
+
+  function abrir(id, registrar) {
+    const t = telas[id]; if (!t) return;
+    if (registrar && atual && atual !== id) historico.push(atual);
+    atual = id; selecionada = -1;
+    $('voltar').disabled = historico.length === 0;
+    try { history.replaceState(null, '', '#' + id); } catch (e) {}
+    document.querySelectorAll('.trilho button').forEach((b) => b.setAttribute('aria-current', b.dataset.id === id ? 'true' : 'false'));
+    const ativo = document.querySelector('.trilho button[aria-current="true"]');
+    if (ativo) ativo.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+
+    const bs = $('barraStatus'); bs.style.background = t.cor; bs.style.color = corTexto(t.cor);
+    $('barraBase').style.background = t.corBase;
+    const c = $('conteudo'); c.innerHTML = '';
+    const alto = t.altura > 852;
+    const topo = alto ? t.topo : 852, base = alto ? t.base : 0;
+    const meio = t.altura - topo - base;
+    // camadas: topo fixo, miolo que rola, base fixa
+    const cTopo = camada(t, 0, alto ? topo : 852); cTopo.style.top = '0px'; c.append(cTopo);
+    let miolo = null, cBase = null;
+    if (alto) {
+      const rol = document.createElement('div'); rol.className = 'rolagem'; rol.id = 'rolagem';
+      rol.style.top = topo + 'px'; rol.style.height = (852 - topo - base) + 'px';
+      miolo = camada(t, topo, meio); miolo.style.position = 'relative'; rol.append(miolo); c.append(rol);
+      if (base) { cBase = camada(t, t.altura - base, base); cBase.style.top = (852 - base) + 'px'; c.append(cBase); }
+      const dica = document.createElement('div'); dica.className = 'dica-rolar'; dica.textContent = 'Role para ver mais ↓'; dica.style.bottom = (base + 14) + 'px';
+      c.append(dica);
+      rol.addEventListener('scroll', () => { dica.style.opacity = rol.scrollTop > 30 ? '0' : '1'; }, { passive: true });
+    }
+
+    t.areas.forEach((a, i) => {
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'area ' + a.status; b.dataset.i = i;
+      b.setAttribute('aria-label', (i + 1) + '. ' + a.titulo);
+      b.setAttribute('aria-pressed', 'false');
+      const n = document.createElement('span'); n.className = 'n'; n.textContent = i + 1; b.append(n);
+      const cy = a.r.y + a.r.h / 2;
+      let pai = cTopo, dy = 0;
+      if (alto && cy >= topo && cy < t.altura - base) { pai = miolo; dy = topo; }
+      else if (alto && cy >= t.altura - base && cBase) { pai = cBase; dy = t.altura - base; }
+      b.style.left = Math.max(a.r.x, 0) + 'px';
+      b.style.top = (a.r.y - dy) + 'px';
+      b.style.width = Math.min(a.r.w, 393 - Math.max(a.r.x, 0)) + 'px';
+      b.style.height = a.r.h + 'px';
+      b.addEventListener('click', () => selecionar(i, false));
+      b.addEventListener('dblclick', () => { if (a.go && telas[a.go]) abrir(a.go, true); });
+      pai.append(b);
+    });
+
+    // painel da tela
+    const meta = D.meta.telas[id] || [id, ''];
+    const cont = { ok: 0, ressalva: 0, nao: 0, futuro: 0 };
+    t.areas.forEach((a) => { cont[a.status] = (cont[a.status] || 0) + 1; });
+    const ct = $('cartaoTela'); ct.innerHTML = '';
+    const p = document.createElement('div'); p.className = 'perfil'; p.textContent = grupoDe[id] || '';
+    const h = document.createElement('h2'); h.textContent = meta[0];
+    const r = document.createElement('p'); r.className = 'resumo-tela'; r.textContent = meta[1];
+    const cg = document.createElement('div'); cg.className = 'contagem';
+    Object.keys(ROTULO).forEach((k) => { if (cont[k]) { const s = document.createElement('span'); s.className = 'chip ' + k; s.innerHTML = '<b></b>'; s.querySelector('b').textContent = cont[k]; s.append(' ' + ROTULO[k].toLowerCase()); cg.append(s); } });
+    ct.append(p, h, r, cg);
+
+    const lista = $('listaAreas'); lista.innerHTML = '';
+    t.areas.forEach((a, i) => {
+      const li = document.createElement('li');
+      const b = document.createElement('button'); b.type = 'button'; b.dataset.i = i;
+      const num = document.createElement('span'); num.className = 'num ' + a.status; num.textContent = i + 1;
+      const tt = document.createElement('span'); tt.className = 'titulo'; tt.textContent = a.titulo;
+      const ch = document.createElement('span'); ch.className = 'chip ' + a.status; ch.textContent = ROTULO[a.status];
+      b.append(num, tt, ch);
+      b.addEventListener('click', () => selecionar(i, true));
+      li.append(b); lista.append(li);
+    });
+    detalheVazio();
+  }
+
+  function detalheVazio() {
+    const d = $('cartaoDetalhe'); d.innerHTML = '';
+    const h = document.createElement('h3'); h.textContent = 'O que é isto?';
+    const p = document.createElement('p'); p.className = 'vazio-detalhe';
+    p.textContent = 'Clique em um botão, foto ou texto dentro do celular (ou num item da lista abaixo) para ver aqui o que ele faz e se já funciona.';
+    d.append(h, p);
+  }
+
+  function selecionar(i, rolar) {
+    const t = telas[atual]; const a = t.areas[i]; selecionada = i;
+    document.querySelectorAll('.area').forEach((b) => b.setAttribute('aria-pressed', String(Number(b.dataset.i) === i)));
+    document.querySelectorAll('.lista-areas button').forEach((b) => b.setAttribute('aria-current', String(Number(b.dataset.i) === i)));
+    const el = document.querySelector('.area[data-i="' + i + '"]');
+    const rol = $('rolagem');
+    if (rolar && el && rol && rol.contains(el)) {
+      const alvo = el.offsetTop - rol.clientHeight / 2 + el.offsetHeight / 2;
+      rol.scrollTo({ top: Math.max(0, alvo), behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+    }
+    const d = $('cartaoDetalhe'); d.innerHTML = '';
+    const cab = document.createElement('div'); cab.className = 'cab';
+    const h = document.createElement('h4');
+    const n = document.createElement('span'); n.className = 'numero'; n.textContent = i + 1;
+    h.append(n, document.createTextNode(a.titulo));
+    const ch = document.createElement('span'); ch.className = 'chip ' + a.status; ch.textContent = ROTULO[a.status];
+    cab.append(h, ch);
+    const p = document.createElement('p'); p.textContent = a.texto;
+    d.append(cab, p);
+    if (a.go && telas[a.go]) {
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'ir';
+      b.textContent = 'Abrir: ' + (D.meta.telas[a.go] || [a.go])[0] + ' →';
+      b.addEventListener('click', () => abrir(a.go, true));
+      d.append(b);
+    }
+  }
+
+  $('voltar').addEventListener('click', () => { const v = historico.pop(); if (v) abrir(v, false); $('voltar').disabled = historico.length === 0; });
+  $('mostrar').addEventListener('click', (e) => {
+    const on = e.currentTarget.getAttribute('aria-pressed') !== 'true';
+    e.currentTarget.setAttribute('aria-pressed', String(on));
+    $('conteudo').classList.toggle('mostrar', on);
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.target.closest && e.target.closest('input,textarea')) return;
+    const t = telas[atual]; if (!t) return;
+    if (e.key === 'ArrowDown' || e.key === 'ArrowRight') { e.preventDefault(); selecionar(Math.min(selecionada + 1, t.areas.length - 1), true); }
+    if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') { e.preventDefault(); selecionar(Math.max(selecionada - 1, 0), true); }
+    if (e.key === 'Enter' && selecionada >= 0 && t.areas[selecionada].go) abrir(t.areas[selecionada].go, true);
+  });
+  window.addEventListener('hashchange', () => { const id = location.hash.slice(1); if (telas[id] && id !== atual) abrir(id, true); });
+
+  ajustar();
+  const inicial = location.hash.slice(1);
+  abrir(telas[inicial] ? inicial : 'inicio', false);
+})();
+</script>

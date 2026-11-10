@@ -1,0 +1,53 @@
+{
+ "grupos": [
+  {"nome": "Visitante (sem conta)", "telas": ["inicio","busca","busca-anel","categorias","categoria-brincos","novidades","produto","sacola-vazia","sacola-visitante","pedidos-visitante","conta-visitante","entrar","cadastro","notificacoes-visitante","favoritos"]},
+  {"nome": "Cliente", "telas": ["conta-cliente","meus-dados","favoritos-cliente","sacola-logada","pedido-novo","pedidos-cliente","pedido-cliente-pago","notificacoes-cliente"]},
+  {"nome": "Revendedora", "telas": ["conta-revenda","inicio-revenda","produto-revenda"]},
+  {"nome": "Equipe (vendedora e admin)", "telas": ["conta-admin","pedidos-equipe","pedido-equipe","revendas","notificacoes-equipe"]}
+ ],
+ "telas": {
+  "inicio": ["Início", "A vitrine da loja, aberta a todos sem conta: vitrine da marca, categorias, destaques, novidades e mais vendidas. Role dentro do celular para ver tudo; o cabeçalho e as abas ficam fixos, como no aparelho."],
+  "busca": ["Busca", "Abre com o teclado pronto e mostra as categorias como sugestão."],
+  "busca-anel": ["Busca com resultado", "Resultado ao digitar \"anel\": contador e grade de peças, atualizando enquanto a pessoa digita."],
+  "categorias": ["Categorias", "Todas as categorias com foto e quantidade de peças. Categorias vazias ficam escondidas sozinhas."],
+  "categoria-brincos": ["Categoria Brincos", "As 14 peças da categoria Brincos. Role para ver todas."],
+  "novidades": ["Lista de novidades", "Lista pronta usada também para Ofertas, Destaques, Mais vendidas e Favoritos."],
+  "produto": ["Página do produto", "Tudo sobre a peça: fotos, preço, escolha do aro, quantidade, WhatsApp e peças parecidas. A barra Sacola/Comprar fica fixa embaixo."],
+  "sacola-vazia": ["Sacola vazia", "O que a cliente vê antes de escolher qualquer peça."],
+  "sacola-visitante": ["Sacola do visitante", "Sacola montada sem conta: fica guardada no celular. Para finalizar é preciso entrar."],
+  "pedidos-visitante": ["Pedidos (visitante)", "Sem conta, a aba Pedidos convida a entrar."],
+  "conta-visitante": ["Conta (visitante)", "Entrar, criar conta, favoritos, notificações e contato pelo WhatsApp."],
+  "entrar": ["Entrar", "Login com e-mail e senha. Abre por cima da tela atual, como uma janela."],
+  "cadastro": ["Criar conta", "Cadastro livre com CPF validado. Leva menos de 1 minuto."],
+  "notificacoes-visitante": ["Notificações (vazia)", "Sem avisos ainda. Visitante também recebe avisos gerais de ofertas e cupons."],
+  "favoritos": ["Favoritos (visitante)", "Favoritos pedem conta."],
+  "conta-cliente": ["Conta da cliente", "Área da cliente logada: dados, pedidos, favoritos, pedido de revenda, sair e excluir conta."],
+  "meus-dados": ["Meus dados", "Edição dos dados pessoais. O CPF fica travado depois de gravado."],
+  "favoritos-cliente": ["Favoritos da cliente", "Peças salvas com o coração."],
+  "sacola-logada": ["Sacola com cupom", "Sacola da conta com o cupom BEMVINDA10 aplicado e o botão Finalizar pelo WhatsApp."],
+  "pedido-novo": ["Pedido enviado", "Tela logo após finalizar: confirmação, linha do tempo, itens e total. Ao mesmo tempo o WhatsApp da loja abre com o resumo."],
+  "pedidos-cliente": ["Meus pedidos", "Histórico de pedidos da cliente."],
+  "pedido-cliente-pago": ["Pedido acompanhado", "O mesmo pedido depois que a loja marcou como Pago."],
+  "notificacoes-cliente": ["Notificações da cliente", "Avisos automáticos da cliente, como mudança de status do pedido."],
+  "conta-revenda": ["Conta da revendedora", "Revendedora aprovada pela equipe."],
+  "inicio-revenda": ["Início (revendedora)", "A mesma vitrine, com os preços de revenda (20% abaixo do preço final)."],
+  "produto-revenda": ["Produto (revendedora)", "Preço de revenda em destaque e preço de varejo riscado."],
+  "conta-admin": ["Conta da equipe", "Selo da equipe e atalhos para pedidos da loja e aprovação de revendedoras."],
+  "pedidos-equipe": ["Pedidos da loja", "Todos os pedidos de todas as clientes, com filtro por status."],
+  "pedido-equipe": ["Pedido (visão da equipe)", "Dados da cliente, WhatsApp dela e mudança de status com um toque."],
+  "revendas": ["Aprovar revendedoras", "Pedidos de revenda esperando decisão da equipe."],
+  "notificacoes-equipe": ["Notificações da equipe", "Avisos automáticos para a equipe, como pedido novo e pedido de revenda."]
+ },
+ "pendencias": [
+  ["Notificação chegando no celular", "Falta o Firebase (você cria o projeto; eu configuro) e um APK novo. Hoje os avisos aparecem só dentro do app."],
+  ["Esqueci minha senha", "Falta cadastrar julianaprado://** em Redirect URLs no Supabase e ter domínio próprio com Resend para os e-mails."],
+  ["Painel web", "Cadastro de produtos, fotos com recorte, banners, categorias, cupons, clientes, envio de avisos, textos automáticos e configurações. Próxima etapa."],
+  ["Fotos no nosso servidor", "Hoje as fotos vêm do site da loja. Serão copiadas para o Supabase junto com o painel."],
+  ["Descrição e código das 42 peças novas", "A planilha do site não trazia. A loja envia ou cadastra pelo painel."],
+  ["Aros e estoque reais", "Os aros 12 a 22 são exemplo. A loja confirma quais peças têm aro, quais tamanhos e o estoque (opcional)."],
+  ["Política de privacidade no app", "Exigida pela Play Store. Eu redijo e você aprova."],
+  ["Filtro por subcategoria e ordenar por preço", "Os dados já existem; falta a tela."],
+  ["Frete, pagamento e rastreio no app", "Por enquanto combinados no WhatsApp, como decidido."],
+  ["Supabase Pro e Google Play", "Antes de liberar para clientes: plano pago do banco (backup diário) e conta de desenvolvedor da Play com teste fechado."]
+ ]
+}
