@@ -22,6 +22,10 @@ Foco: beleza no design e velocidade.
 - Ações: `sacola_adicionar|quantidade|mesclar|ver`, `validar_cupom`, `criar_pedido`, `solicitar_revenda`, `decidir_revenda`, `registrar_dispositivo`, `contar_notificacoes_nao_lidas`, `marcar_notificacoes_lidas`, `excluir_minha_conta`.
 - Avisos automáticos (modelos editáveis em `eventos_push`): pedido novo (equipe), status do pedido, revenda solicitada/aprovada, cupom divulgado (todos), sacola esquecida 1h e 1 dia (cron a cada 10 min), favorito entrou em oferta.
 
+### Regra de preço de revenda (10/11/2026)
+Revendedora aprovada paga o preço final do varejo (promoção, se houver) menos `configuracoes.desconto_revenda_pct` (hoje 20%).
+Se `produtos.preco_revenda` estiver preenchido, vale ele (exceção por produto). Cálculo em `privado.precos`.
+
 ## 4. App (src/)
 - Abas: Início (vitrine da marca ou banners, categorias, ofertas, destaques, novidades, mais vendidas), Categorias, Sacola, Pedidos, Conta.
 - Telas: produto/[id] (fotos, aro/opção, quantidade, WhatsApp), categoria/[id], lista/[filtro], busca, pedido/[id] (linha do tempo; equipe muda status), notificacoes, entrar, cadastro (CPF validado), esqueci-senha, redefinir-senha (deep link julianaprado://redefinir-senha), meus-dados, equipe/revendas.
@@ -42,4 +46,3 @@ Foco: beleza no design e velocidade.
 - Categoria "abas" do Bubble: confirmar nome.
 - Supabase Auth: Site URL e Redirect URLs (`julianaprado://**`); SMTP próprio quando houver domínio; hoje confirmação de e-mail desligada.
 - Painel web (Vite) ainda não feito: produtos, fotos, banners, cupons, pedidos, clientes, notificações.
-- Preço de revenda dos produtos ainda vazio (revendedora vê preço de varejo até preencher).
