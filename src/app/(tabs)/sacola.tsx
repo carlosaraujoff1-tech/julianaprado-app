@@ -27,7 +27,7 @@ function Linha({ item }: { item: ItemTela }) {
   return (
     <View style={[s.item, !item.disponivel && { opacity: 0.6 }]}>
       <Pressable onPress={() => router.push({ pathname: '/produto/[id]', params: { id: item.produto_id } })}>
-        <FotoProduto uri={item.imagem} style={s.foto} tamMonograma={22} />
+        <FotoProduto uri={item.imagem} style={s.foto} tamMonograma={22} tamanho="miniatura" />
       </Pressable>
       <View style={{ flex: 1, gap: 4 }}>
         <Text style={s.nome} numberOfLines={2}>{item.nome}</Text>

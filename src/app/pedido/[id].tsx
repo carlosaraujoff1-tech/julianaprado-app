@@ -88,7 +88,7 @@ export default function DetalhePedido() {
           <T v="rotulo">Itens</T>
           {itens.map((i) => (
             <View key={i.id} style={s.item}>
-              <FotoProduto uri={i.imagem_url} style={s.foto} tamMonograma={18} />
+              <FotoProduto uri={i.imagem_url} style={s.foto} tamMonograma={18} tamanho="miniatura" />
               <View style={{ flex: 1, gap: 2 }}>
                 <T v="corpoForte" numberOfLines={2}>{i.produto_nome}</T>
                 <T v="legenda">{i.variacao_nome ? `${i.variacao_nome} · ` : ''}{i.quantidade} × {formatarReais(i.preco_unitario)}</T>

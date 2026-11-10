@@ -6,6 +6,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Carregando, T } from '@/components/ui';
 import { cores, espaco, fontes, raio } from '@/constants/tema';
+import { urlImagem } from '@/lib/imagem';
 import { useCategorias } from '@/lib/vitrine';
 
 export default function Categorias() {
@@ -34,7 +35,7 @@ export default function Categorias() {
             <Pressable style={[s.card, { width: larg }]}
               onPress={() => router.push({ pathname: '/categoria/[id]', params: { id: item.id, nome: item.nome } })}>
               {item.imagem_url ? (
-                <Image source={{ uri: item.imagem_url }} style={{ width: larg, height: larg * 0.8 }} contentFit="cover" cachePolicy="memory-disk" />
+                <Image source={{ uri: urlImagem(item.imagem_url, 'card') ?? undefined }} style={{ width: larg, height: larg * 0.8 }} contentFit="cover" cachePolicy="memory-disk" />
               ) : (
                 <View style={[s.semFoto, { width: larg, height: larg * 0.8 }]}><Text style={s.letra}>{item.nome.charAt(0)}</Text></View>
               )}

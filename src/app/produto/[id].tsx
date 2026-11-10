@@ -83,7 +83,7 @@ export default function Produto() {
             keyExtractor={(u, i) => `${u}-${i}`}
             showsHorizontalScrollIndicator={false}
             onMomentumScrollEnd={(e) => setFoto(Math.round(e.nativeEvent.contentOffset.x / width))}
-            renderItem={({ item }) => <FotoProduto uri={item} style={{ width, height: width }} tamMonograma={72} />}
+            renderItem={({ item }) => <FotoProduto uri={item} style={{ width, height: width }} tamMonograma={72} tamanho="grande" />}
           />
           {fotos.length > 1 && (
             <View style={s.pontos}>{fotos.map((_, i) => <View key={i} style={[s.ponto, i === foto && s.pontoAtivo]} />)}</View>

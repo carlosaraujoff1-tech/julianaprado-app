@@ -8,6 +8,7 @@ import { FlatList, Linking, Pressable, StyleSheet, Text, useWindowDimensions, Vi
 import { CardProduto } from '@/components/produto';
 import { T } from '@/components/ui';
 import { cores, espaco, fontes, raio } from '@/constants/tema';
+import { urlImagem } from '@/lib/imagem';
 import { useProdutos, type FiltroLista } from '@/lib/vitrine';
 import type { Banner } from '@/types/database';
 
@@ -114,7 +115,7 @@ export function FaixaCategorias({ categorias }: { categorias: { id: string; nome
           <Pressable style={s.cat} onPress={() => router.push({ pathname: '/categoria/[id]', params: { id: item.id, nome: item.nome } })}>
             <View style={s.catAro}>
               {item.imagem_url ? (
-                <Image source={{ uri: item.imagem_url }} style={s.catImg} contentFit="cover" cachePolicy="memory-disk" />
+                <Image source={{ uri: urlImagem(item.imagem_url, 'miniatura') ?? undefined }} style={s.catImg} contentFit="cover" cachePolicy="memory-disk" />
               ) : (
                 <View style={[s.catImg, s.catSemFoto]}><Text style={s.catLetra}>{item.nome.charAt(0)}</Text></View>
               )}

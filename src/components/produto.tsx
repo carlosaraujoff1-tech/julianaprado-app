@@ -11,13 +11,15 @@ import { cores, espaco, fontes, raio } from '@/constants/tema';
 import { useAuth } from '@/lib/auth';
 import { useAlternarFavorito, useIdsFavoritos } from '@/lib/favoritos';
 import { formatarReais } from '@/lib/formatacao';
+import { urlImagem, type TamanhoImagem } from '@/lib/imagem';
 import { useSacola } from '@/lib/sacola';
 import { mensagemErro } from '@/lib/supabase';
 import { semearProduto } from '@/lib/vitrine';
 import type { ProdutoVitrine } from '@/types/database';
 
 // Foto do produto. Sem foto: fundo creme com o monograma "JP".
-export function FotoProduto({ uri, style, tamMonograma = 34 }: { uri?: string | null; style?: StyleProp<ViewStyle>; tamMonograma?: number }) {
+export function FotoProduto({ uri: original, style, tamMonograma = 34, tamanho = 'card' }: { uri?: string | null; style?: StyleProp<ViewStyle>; tamMonograma?: number; tamanho?: TamanhoImagem }) {
+  const uri = urlImagem(original, tamanho);
   return (
     <View style={[f.caixa, style]}>
       {uri ? (
