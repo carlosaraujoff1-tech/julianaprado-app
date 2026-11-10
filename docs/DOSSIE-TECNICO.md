@@ -22,5 +22,24 @@ Foco: beleza no design e velocidade.
 - Ações: `sacola_adicionar|quantidade|mesclar|ver`, `validar_cupom`, `criar_pedido`, `solicitar_revenda`, `decidir_revenda`, `registrar_dispositivo`, `contar_notificacoes_nao_lidas`, `marcar_notificacoes_lidas`, `excluir_minha_conta`.
 - Avisos automáticos (modelos editáveis em `eventos_push`): pedido novo (equipe), status do pedido, revenda solicitada/aprovada, cupom divulgado (todos), sacola esquecida 1h e 1 dia (cron a cada 10 min), favorito entrou em oferta.
 
-## 4. Pendências
-Ver a conversa/plano: app, painel, Edge Function de push, Firebase, conta Expo, dados do Bubble.
+## 4. App (src/)
+- Abas: Início (vitrine da marca ou banners, categorias, ofertas, destaques, novidades, mais vendidas), Categorias, Sacola, Pedidos, Conta.
+- Telas: produto/[id] (fotos, aro/opção, quantidade, WhatsApp), categoria/[id], lista/[filtro], busca, pedido/[id] (linha do tempo; equipe muda status), notificacoes, entrar, cadastro (CPF validado), esqueci-senha, redefinir-senha (deep link julianaprado://redefinir-senha), meus-dados, equipe/revendas.
+- Sacola de visitante fica no celular (AsyncStorage) e é juntada à conta ao entrar (`sacola_mesclar`).
+- Finalizar: `criar_pedido` → abre WhatsApp (configuracoes.whatsapp_pedidos = 5543920009775) com o resumo.
+- Visual: grafite #3A3539 + dourado #B8994A, Cormorant Garamond (títulos) + Inter (texto), fontes embutidas via expo-font. Sem foto: monograma "JP".
+- Admin automático: e-mails em privado.config('admins_iniciais') (hoje carlosaraujoff1@gmail.com) viram admin ao se cadastrar.
+
+## 5. Publicação
+- Expo: conta `carlosaraujo1308s-team`, projeto `julianaprado-app` (ID e2e6ec4d-f4dc-4a97-af48-07e1897452af). Pacote Android `br.com.julianaprado.app` (confirmado pelo dono; definitivo só no 1º envio à Play).
+- `eas.json`: preview (APK, canal preview), production (AAB, canal production). `runtimeVersion: fingerprint`.
+- Token do EAS: credencial de rede do ambiente de nuvem (host api.expo.dev), nunca em arquivo. Comandos: `EXPO_TOKEN=proxy-injected npx eas-cli@latest build -p android --profile preview --non-interactive`.
+- Edge Function `processar-fila-push` publicada (verify_jwt=false, protegida por x-push-segredo). Canal Android "avisos".
+
+## 6. Pendências
+- Firebase (google-services.json + chave FCM V1 no expo.dev) para o push chegar no celular → exige APK novo.
+- Fotos e dados reais (exportar CSV do Bubble: Produtos, Categorias). Catálogo atual veio dos prints (supabase/dados/).
+- Categoria "abas" do Bubble: confirmar nome.
+- Supabase Auth: Site URL e Redirect URLs (`julianaprado://**`); SMTP próprio quando houver domínio; hoje confirmação de e-mail desligada.
+- Painel web (Vite) ainda não feito: produtos, fotos, banners, cupons, pedidos, clientes, notificações.
+- Preço de revenda dos produtos ainda vazio (revendedora vê preço de varejo até preencher).
