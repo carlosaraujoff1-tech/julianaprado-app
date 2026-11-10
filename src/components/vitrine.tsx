@@ -2,7 +2,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router, type Href } from 'expo-router';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FlatList, Linking, Pressable, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 
 import { CardProduto } from '@/components/produto';
@@ -51,10 +51,27 @@ function abrirLink(link: string | null) {
   else Linking.openURL(link).catch(() => undefined);
 }
 
+// Banners no formato das artes do site para celular (1200 x 863, proporção 1,39).
+export const PROPORCAO_BANNER = 1.39;
+
 export function Vitrine({ banners }: { banners: Banner[] }) {
   const { width } = useWindowDimensions();
   const [atual, setAtual] = useState(0);
   const largura = width - espaco.lg * 2;
+  const passo = largura + espaco.md;
+  const lista = useRef<FlatList<Banner>>(null);
+  const tocando = useRef(false);
+
+  // Avança sozinho a cada 5 s (pausa enquanto a pessoa mexe).
+  useEffect(() => {
+    if (banners.length < 2) return;
+    const t = setInterval(() => {
+      if (tocando.current) return;
+      const prox = (atual + 1) % banners.length;
+      lista.current?.scrollToOffset({ offset: prox * passo, animated: true });
+    }, 5000);
+    return () => clearInterval(t);
+  }, [atual, banners.length, passo]);
 
   if (!banners.length) {
     // Sem banner cadastrado: vitrine da marca (nunca fica um buraco vazio).
@@ -75,18 +92,26 @@ export function Vitrine({ banners }: { banners: Banner[] }) {
   return (
     <View style={{ gap: espaco.sm }}>
       <FlatList
+        ref={lista}
         horizontal
-        pagingEnabled
-        snapToInterval={largura + espaco.md}
+        snapToInterval={passo}
+        snapToAlignment="start"
         decelerationRate="fast"
+        disableIntervalMomentum
         data={banners}
         keyExtractor={(b) => b.id}
         contentContainerStyle={{ paddingHorizontal: espaco.lg, gap: espaco.md }}
         showsHorizontalScrollIndicator={false}
-        onMomentumScrollEnd={(e) => setAtual(Math.round(e.nativeEvent.contentOffset.x / (largura + espaco.md)))}
+        scrollEventThrottle={32}
+        onScrollBeginDrag={() => { tocando.current = true; }}
+        onScrollEndDrag={() => { tocando.current = false; }}
+        onScroll={(e) => {
+          const i = Math.min(banners.length - 1, Math.max(0, Math.round(e.nativeEvent.contentOffset.x / passo)));
+          if (i !== atual) setAtual(i);
+        }}
         renderItem={({ item }) => (
-          <Pressable onPress={() => abrirLink(item.link)}>
-            <Image source={{ uri: item.imagem_url }} style={{ width: largura, height: largura / 2, borderRadius: raio.lg }}
+          <Pressable onPress={() => abrirLink(item.link)} accessibilityRole="link" accessibilityLabel={item.titulo || 'Banner'}>
+            <Image source={{ uri: urlImagem(item.imagem_url, 'grande') ?? undefined }} style={{ width: largura, height: largura / PROPORCAO_BANNER, borderRadius: raio.lg, backgroundColor: cores.cremeFoto }}
               contentFit="cover" transition={200} cachePolicy="memory-disk" />
           </Pressable>
         )}
