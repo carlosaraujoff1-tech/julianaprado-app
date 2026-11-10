@@ -137,6 +137,7 @@ export default function Conta() {
           <T v="rotulo" style={s.grupoTitulo}>Equipe</T>
           <Item icone="receipt-outline" titulo="Pedidos da loja" onPress={() => router.navigate('/pedidos')} />
           <Item icone="people-outline" titulo="Aprovar revendedoras" onPress={ir('/equipe/revendas')} />
+          {admin && <Item icone="megaphone-outline" titulo="Enviar notificação" onPress={ir('/equipe/notificar')} />}
         </View>
       )}
 

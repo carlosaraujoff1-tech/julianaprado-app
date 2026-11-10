@@ -22,7 +22,8 @@
         "foregroundImage": "./assets/images/android-icon-foreground.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "output": "single",
@@ -60,7 +61,22 @@
           ]
         }
       ],
-      "expo-updates"
+      "expo-updates",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "O app usa suas fotos apenas quando você escolhe uma imagem para enviar.",
+          "cameraPermission": false,
+          "microphonePermission": false,
+          "colors": {
+            "cropToolbarColor": "#3A3539",
+            "cropToolbarIconColor": "#FFFFFF",
+            "cropToolbarActionTextColor": "#B8994A",
+            "cropBackButtonIconColor": "#FFFFFF",
+            "cropBackgroundColor": "#2B272A"
+          }
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,

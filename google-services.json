@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "752933280889",
+    "project_id": "juliana-prado",
+    "storage_bucket": "juliana-prado.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:752933280889:android:2874ae881843654f5b48a8",
+        "android_client_info": {
+          "package_name": "br.com.julianaprado.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQIZ0rDf8jNXrd-Uk79y-m0TVXOa3ZvqE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
