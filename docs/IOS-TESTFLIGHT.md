@@ -48,3 +48,7 @@ Ao responder "usa só criptografia padrão", a Expo gravou `ios.infoPlist.ITSApp
 - Para publicar atualizações use sempre: `scripts/publicar-atualizacao.sh "mensagem" [android|ios|todas]`. Ele publica o Android com o app.json do repositório e o iPhone com a linha (só durante o comando).
 - Quando for gerado um novo APK do Android por outro motivo, incluir a linha no app.json e unificar os dois.
 - Conferir diferenças entre assinaturas: `eas fingerprint:compare <hash1> <hash2>`.
+
+## Envio concluído (23/11/2026, 18:17)
+- App no App Store Connect: https://appstoreconnect.apple.com/apps/6838409644/testflight/ios (ascAppId `6838409644`, já em `eas.json` → `submit.testflight`).
+- Próximas versões (depois da primeira, sem senha da Apple): `eas build -p ios --profile testflight --non-interactive` e `eas submit -p ios --profile testflight --latest --non-interactive`. Antes, aumentar `ios.buildNumber` no app.json e lembrar da linha `infoPlist` do iPhone (ver seção acima).
