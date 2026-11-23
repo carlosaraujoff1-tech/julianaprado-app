@@ -12,7 +12,8 @@
     },
     "ios": {
       "bundleIdentifier": "br.com.julianaprado.app",
-      "supportsTablet": false
+      "supportsTablet": false,
+      "buildNumber": "1"
     },
     "android": {
       "package": "br.com.julianaprado.app",

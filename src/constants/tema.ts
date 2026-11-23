@@ -1,3 +1,5 @@
+import { Platform } from 'react-native';
+
 // Identidade visual da Juliana Prado: grafite da logo + dourado dos botões.
 export const cores = {
   grafite: '#3A3539',
@@ -16,8 +18,10 @@ export const cores = {
   whatsapp: '#1FA855',
 } as const;
 
-// Fontes embutidas no app (expo-font, app.json). No Android o nome é o do arquivo.
-export const fontes = {
+// Fontes embutidas no app (expo-font, app.json).
+// Android e web chamam a fonte pelo nome do ARQUIVO; o iPhone chama pelo nome INTERNO (PostScript).
+// Sem esta troca, o iPhone ignoraria as fontes e usaria a fonte padrão do sistema.
+const nomesArquivo = {
   serifa: 'CormorantGaramond_600SemiBold',
   serifaMedia: 'CormorantGaramond_500Medium',
   serifaForte: 'CormorantGaramond_700Bold',
@@ -26,6 +30,18 @@ export const fontes = {
   textoSemi: 'Inter_600SemiBold',
   textoForte: 'Inter_700Bold',
 } as const;
+
+const nomesIos: Record<keyof typeof nomesArquivo, string> = {
+  serifa: 'CormorantGaramond-SemiBold',
+  serifaMedia: 'CormorantGaramond-Medium',
+  serifaForte: 'CormorantGaramond-Bold',
+  texto: 'Inter-Regular',
+  textoMedio: 'Inter-Medium',
+  textoSemi: 'Inter-SemiBold',
+  textoForte: 'Inter-Bold',
+};
+
+export const fontes: Record<keyof typeof nomesArquivo, string> = Platform.OS === 'ios' ? nomesIos : nomesArquivo;
 
 export const espaco = { xs: 4, sm: 8, md: 12, lg: 16, xl: 24, xxl: 32 } as const;
 export const raio = { sm: 8, md: 12, lg: 16, pill: 999 } as const;
