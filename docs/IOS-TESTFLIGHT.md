@@ -37,3 +37,14 @@ Mudanças só de tela/regra chegam ao iPhone por `eas update --channel preview`,
 
 ## Ainda não testado em iPhone de verdade
 Fontes (corrigidas por nome interno), barra de abas, notificações (principalmente **foto dentro da notificação**, que no iPhone costuma exigir configuração extra), toque duplo e rolagem do Descubra.
+
+## Estado em 23/11/2026 (primeiro envio feito)
+- Conta Apple usada: **RAIO DE LUZ ARTIGOS RELIGIOSOS LTDA** (equipe A56Q684NKD), só para testes. O identificador `br.com.julianaprado.app` ficou registrado nela. Para publicar na App Store em nome da Juliana Prado será preciso uma conta Apple dela e outro identificador no iPhone (o Android não muda).
+- Build iOS `03dfa88d-83cf-4bda-bb2a-deda6d606f4f` (perfil testflight, canal preview, buildNumber 1), runtime `460db299…`. Chave do App Store Connect (APP_MANAGER) criada pela Expo.
+- Testador interno liberado: o Apple ID que fez o envio (grupo "Team (Expo)").
+
+## Atualizações sem reinstalar: Android e iPhone têm "assinaturas" diferentes
+Ao responder "usa só criptografia padrão", a Expo gravou `ios.infoPlist.ITSAppUsesNonExemptEncryption=false` no app.json usado no build do iPhone. Essa linha muda a assinatura do iPhone (`460db299…`) e também mudaria a do Android (`0d72289c…` → `83b70d61…`), cujo APK já está instalado. Por isso a linha NÃO está no app.json do repositório.
+- Para publicar atualizações use sempre: `scripts/publicar-atualizacao.sh "mensagem" [android|ios|todas]`. Ele publica o Android com o app.json do repositório e o iPhone com a linha (só durante o comando).
+- Quando for gerado um novo APK do Android por outro motivo, incluir a linha no app.json e unificar os dois.
+- Conferir diferenças entre assinaturas: `eas fingerprint:compare <hash1> <hash2>`.
