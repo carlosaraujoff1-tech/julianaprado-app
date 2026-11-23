@@ -59,3 +59,33 @@ textarea { resize: vertical; }
 .historico div { display: grid; gap: 1px; min-width: 0; } .historico span { color: var(--suave); font-size: 13px; overflow-wrap: anywhere; }
 .historico small { font-size: 12px; } .historico small.ok { color: var(--ok); } .historico small.erro { color: var(--erro); } .historico small.neutro { color: var(--suave); }
 @media (max-width: 860px) { .grade2 { grid-template-columns: 1fr; } .conteudo { padding: 14px; } .topo { padding: 12px 14px; } }
+.aba { background: none; border: 0; cursor: pointer; font-family: inherit; }
+.linha.entre { justify-content: space-between; align-items: flex-start; }
+.coluna.estreita { gap: 8px; }
+.link.esquerda { justify-self: start; padding-left: 0; }
+.novo-post { border-color: var(--ouro); }
+.novo-grade { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 24px; align-items: start; }
+.soltar.alto { min-height: 300px; align-content: center; }
+.recorte { display: grid; gap: 8px; justify-items: start; }
+.recorte-quadro { position: relative; width: 270px; height: 480px; overflow: hidden; border-radius: 18px; background: #222; cursor: grab; touch-action: none; display: grid; place-items: center; }
+.recorte-quadro:active { cursor: grabbing; }
+.recorte-quadro img { position: absolute; top: 0; left: 0; max-width: none; user-select: none; pointer-events: none; }
+.recorte-guia { position: absolute; left: 0; right: 0; color: rgba(255,255,255,.85); font-size: 10.5px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; text-align: center; pointer-events: none; padding: 6px; }
+.recorte-guia.topo { top: 0; height: 18%; background: linear-gradient(rgba(0,0,0,.45), transparent); }
+.recorte-guia.base { bottom: 0; height: 40%; display: flex; align-items: flex-end; justify-content: center; background: linear-gradient(transparent, rgba(0,0,0,.55)); border-top: 1px dashed rgba(255,255,255,.5); }
+.recorte-zoom { width: 270px; }
+.recorte-zoom input { padding: 0; }
+.produto-escolhido { display: flex; align-items: center; gap: 10px; padding: 8px; border: 1px solid var(--linha); border-radius: 10px; text-transform: none; letter-spacing: 0; font-weight: 500; color: var(--tinta); font-size: 14px; }
+.produto-escolhido img { width: 44px; height: 44px; object-fit: cover; border-radius: 8px; }
+.sugestoes { list-style: none; margin: 0; padding: 4px; border: 1px solid var(--linha); border-radius: 10px; background: #fff; }
+.sugestoes button { width: 100%; text-align: left; background: none; border: 0; padding: 8px 10px; border-radius: 8px; cursor: pointer; font-size: 14px; color: var(--tinta); text-transform: none; letter-spacing: 0; font-weight: 400; }
+.sugestoes button:hover { background: var(--ouro-claro); }
+.grade-posts { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+.post { display: grid; grid-template-columns: 108px minmax(0, 1fr); gap: 14px; background: var(--cartao); border: 1px solid var(--linha); border-radius: 14px; padding: 12px; }
+.post img { width: 108px; height: 192px; object-fit: cover; border-radius: 10px; display: block; background: var(--ouro-claro); }
+.post-info { display: grid; gap: 4px; align-content: start; min-width: 0; }
+.post-info span { font-size: 13px; color: var(--suave); overflow-wrap: anywhere; }
+.post-legenda { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.post-tags { color: var(--ouro-escuro) !important; }
+.post-info small { color: var(--suave); font-size: 12px; }
+@media (max-width: 860px) { .novo-grade { grid-template-columns: 1fr; } }

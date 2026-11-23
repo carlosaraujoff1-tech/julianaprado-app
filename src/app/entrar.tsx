@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { BarraStatusClara } from '@/components/barra-status';
 import { useToast } from '@/components/toast';
 import { Botao, Campo, T } from '@/components/ui';
 import { cores, espaco, fontes } from '@/constants/tema';
@@ -33,6 +34,7 @@ export default function Entrar() {
 
   return (
     <KeyboardAvoidingView style={{ flex: 1, backgroundColor: cores.creme }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+      <BarraStatusClara />
       <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled">
         <View style={[s.topo, { paddingTop: ins.top + espaco.lg }]}>
           <Pressable onPress={() => router.back()} hitSlop={12} style={s.fechar} accessibilityLabel="Fechar">

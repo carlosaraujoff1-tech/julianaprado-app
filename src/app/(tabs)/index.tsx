@@ -3,6 +3,7 @@ import { router } from 'expo-router';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { BarraStatusClara } from '@/components/barra-status';
 import { GradeProdutos } from '@/components/grade';
 import { T } from '@/components/ui';
 import { CarrosselProdutos, FaixaCategorias, TituloSecao, Vitrine } from '@/components/vitrine';
@@ -57,6 +58,7 @@ export default function Inicio() {
 
   return (
     <View style={{ flex: 1, backgroundColor: cores.creme }}>
+      <BarraStatusClara />
       <Topo />
       <GradeProdutos
         produtos={maisVendidos.data ?? []}

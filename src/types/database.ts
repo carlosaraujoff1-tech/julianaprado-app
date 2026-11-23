@@ -44,6 +44,12 @@ export type ProdutoVitrine = {
   imagem: string | null; nome: string; novidade: boolean; preco_de: number | null; preco_por: number;
   sku: string; tem_variacoes: boolean;
 };
+export type PostFeed = {
+  id: string; imagem_url: string; imagem_mini_url: string; titulo: string | null; legenda: string | null;
+  hashtags: string[]; publicado_em: string; curtidas: number; curtido: boolean; salvo: boolean;
+  produto_id: string | null; produto_nome: string | null; produto_imagem: string | null;
+  preco_de: number | null; preco_por: number | null; tem_variacoes: boolean | null; esgotado: boolean | null;
+};
 export type ItemSacola = {
   disponivel: boolean; imagem: string | null; item_id: string; nome: string; preco_de: number | null; preco_por: number;
   produto_id: string; quantidade: number; subtotal: number; variacao_id: string | null; variacao_nome: string | null;
@@ -67,6 +73,9 @@ export type Database = {
       criar_pedido: { Args: { p_cupom?: string; p_observacoes?: string }; Returns: Json };
       decidir_revenda: { Args: { p_aprovar: boolean; p_usuario: string }; Returns: undefined };
       excluir_minha_conta: { Args: never; Returns: undefined };
+      feed_posts: { Args: { p_limite?: number; p_antes?: string; p_salvos?: boolean }; Returns: PostFeed[] };
+      alternar_curtida: { Args: { p_post: string }; Returns: Json };
+      alternar_salvo: { Args: { p_post: string }; Returns: boolean };
       marcar_notificacoes_lidas: { Args: never; Returns: undefined };
       registrar_acesso: { Args: never; Returns: undefined };
       registrar_dispositivo: { Args: { p_plataforma: string; p_token: string }; Returns: undefined };

@@ -50,7 +50,7 @@ function Raiz() {
 
   return (
     <>
-      <StatusBar style="light" />
+      <StatusBar style="dark" />
       <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: cores.creme }, animation: 'slide_from_right' }}>
         <Stack.Screen name="(tabs)" options={{ animation: 'none' }} />
         <Stack.Screen name="busca" options={{ animation: 'fade' }} />

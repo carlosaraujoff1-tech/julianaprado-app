@@ -135,16 +135,17 @@ export default function Conta() {
       {equipe && (
         <View style={s.grupo}>
           <T v="rotulo" style={s.grupoTitulo}>Equipe</T>
-          <Item icone="receipt-outline" titulo="Pedidos da loja" onPress={() => router.navigate('/pedidos')} />
+          <Item icone="receipt-outline" titulo="Pedidos da loja" onPress={() => router.push('/pedidos')} />
           <Item icone="people-outline" titulo="Aprovar revendedoras" onPress={ir('/equipe/revendas')} />
           {admin && <Item icone="megaphone-outline" titulo="Enviar notificação" onPress={ir('/equipe/notificar')} />}
         </View>
       )}
 
       <View style={s.grupo}>
+        {logado && <Item icone="receipt-outline" titulo="Meus pedidos" onPress={() => router.push('/pedidos')} />}
         {logado && <Item icone="person-outline" titulo="Meus dados" onPress={ir('/meus-dados')} />}
-        {logado && <Item icone="receipt-outline" titulo="Meus pedidos" onPress={() => router.navigate('/pedidos')} />}
         <Item icone="heart-outline" titulo="Favoritos" onPress={() => router.push({ pathname: '/lista/[filtro]', params: { filtro: 'favoritos' } })} />
+        <Item icone="bookmark-outline" titulo="Posts salvos" onPress={ir('/salvos')} />
         <Item icone="notifications-outline" titulo="Notificações" onPress={ir('/notificacoes')} />
       </View>
 

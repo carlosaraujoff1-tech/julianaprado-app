@@ -2,10 +2,9 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { router } from 'expo-router';
 import { useState } from 'react';
 import { FlatList, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { SeloStatus } from '@/components/pedido';
-import { Botao, Carregando, T, Vazio } from '@/components/ui';
+import { Botao, Cabecalho, Carregando, T, Vazio } from '@/components/ui';
 import { cores, espaco, fontes, raio } from '@/constants/tema';
 import { useAuth } from '@/lib/auth';
 import { dataHora, formatarReais, rotuloStatus } from '@/lib/formatacao';
@@ -15,17 +14,14 @@ import type { StatusPedido } from '@/types/database';
 const filtros: (StatusPedido | null)[] = [null, 'recebido', 'pago', 'em_separacao', 'enviado', 'entregue', 'cancelado'];
 
 export default function Pedidos() {
-  const ins = useSafeAreaInsets();
   const { logado, equipe } = useAuth();
   const [status, setStatus] = useState<StatusPedido | null>(null);
   const q = usePedidos(equipe ? status : null);
 
   return (
-    <View style={{ flex: 1, paddingTop: ins.top + espaco.md }}>
-      <View style={{ paddingHorizontal: espaco.lg, gap: 2 }}>
-        <T v="tituloGrande">{equipe ? 'Pedidos da loja' : 'Meus pedidos'}</T>
-        {equipe && <T v="legenda">Você está vendo os pedidos de todas as clientes.</T>}
-      </View>
+    <View style={{ flex: 1 }}>
+      <Cabecalho titulo={equipe ? 'Pedidos da loja' : 'Meus pedidos'} />
+      {equipe && <T v="legenda" style={{ paddingHorizontal: espaco.lg }}>Você está vendo os pedidos de todas as clientes.</T>}
       {!logado ? (
         <Vazio icone="receipt-outline" titulo="Acompanhe seus pedidos" texto="Entre na sua conta para ver seus pedidos e o andamento de cada um."
           acao={<Botao titulo="Entrar" onPress={() => router.push('/entrar')} />} />
