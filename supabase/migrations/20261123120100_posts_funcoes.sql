@@ -92,40 +92,10 @@ begin
 end $$;
 
 -- ===== Avisos =====
-alter table public.eventos_push drop constraint if exists eventos_push_publico_check;
-alter table public.eventos_push add constraint eventos_push_publico_check check (publico in ('cliente', 'equipe', 'admins', 'todos'));
-
-create or replace function privado.disparar_evento(p_chave text, p_usuario uuid, p_vars jsonb)
-returns void language plpgsql security definer set search_path = '' as $$
-declare
-  e public.eventos_push%rowtype;
-  dest uuid;
-begin
-  select * into e from public.eventos_push where chave = p_chave and ativo;
-  if not found then return; end if;
-
-  if e.publico = 'todos' then
-    insert into public.notificacoes (titulo, corpo, rota, destinatario_id, evento)
-    values (privado.aplicar_modelo(e.titulo, p_vars), privado.aplicar_modelo(e.corpo, p_vars),
-            privado.aplicar_modelo(e.rota, p_vars), null, p_chave);
-    return;
-  end if;
-
-  for dest in
-    select p_usuario where e.publico = 'cliente' and p_usuario is not null
-    union all
-    select id from public.perfis where e.publico = 'equipe' and tipo in ('admin', 'vendedora')
-    union all
-    select id from public.perfis where e.publico = 'admins' and tipo = 'admin'
-  loop
-    insert into public.notificacoes (titulo, corpo, rota, destinatario_id, evento)
-    values (privado.aplicar_modelo(e.titulo, p_vars), privado.aplicar_modelo(e.corpo, p_vars),
-            privado.aplicar_modelo(e.rota, p_vars), dest, p_chave);
-  end loop;
-end $$;
-
+-- "post_pendente" vai para cada administradora (o gatilho abaixo chama o evento uma vez por admin),
+-- sem mudar as regras da tabela eventos_push.
 insert into public.eventos_push (chave, descricao, publico, titulo, corpo, rota) values
-  ('post_pendente', 'Post novo esperando aprovação (para administradoras)', 'admins',
+  ('post_pendente', 'Post novo esperando aprovação (para administradoras)', 'cliente',
    'Post para aprovar', '{autor} enviou um post para a aba Descubra: "{titulo}".', null),
   ('post_aprovado', 'Post aprovado (para quem enviou)', 'cliente',
    'Seu post foi publicado ✨', '"{titulo}" já está na aba Descubra.', '/descubra'),
@@ -137,11 +107,14 @@ create or replace function privado.tg_evento_post()
 returns trigger language plpgsql security definer set search_path = '' as $$
 declare
   v_titulo text := coalesce(nullif(new.titulo, ''), 'sem título');
+  v_admin uuid;
 begin
   if tg_op = 'INSERT' or (new.status = 'pendente' and old.status is distinct from 'pendente') then
     if new.status = 'pendente' then
-      perform privado.disparar_evento('post_pendente', null, jsonb_build_object(
-        'titulo', v_titulo, 'autor', coalesce((select nullif(nome, '') from public.perfis where id = new.criado_por), 'Alguém da equipe')));
+      for v_admin in select id from public.perfis where tipo = 'admin' loop
+        perform privado.disparar_evento('post_pendente', v_admin, jsonb_build_object(
+          'titulo', v_titulo, 'autor', coalesce((select nullif(nome, '') from public.perfis where id = new.criado_por), 'Alguém da equipe')));
+      end loop;
     end if;
   elsif new.status is distinct from old.status and new.criado_por is not null
         and new.criado_por is distinct from new.moderado_por then
