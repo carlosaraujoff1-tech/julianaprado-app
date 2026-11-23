@@ -1,4 +1,5 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useQueryClient } from '@tanstack/react-query';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -8,7 +9,9 @@ import {
   FlatList, Pressable, Share, StyleSheet, Text, View,
   type LayoutChangeEvent, type ListRenderItem,
 } from 'react-native';
-import Animated, { FadeOut, ZoomIn } from 'react-native-reanimated';
+import Animated, {
+  FadeIn, FadeOut, useAnimatedStyle, useSharedValue, withRepeat, withSequence, withTiming, ZoomIn,
+} from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { FotoProduto } from '@/components/produto';
@@ -198,6 +201,25 @@ function PostItemBase({ post, altura, largura, mostrarTopo }: ItemProps) {
 }
 export const PostItem = memo(PostItemBase);
 
+// Dica "Deslize para cima" no 1º post. Some sozinha em ~4,5 s ou quando a pessoa desliza.
+// Depois que a pessoa desliza uma vez, o app lembra e não mostra mais.
+const CHAVE_DICA = 'descubra-dica-vista-v1';
+
+function DicaDeslizar() {
+  const y = useSharedValue(0);
+  useEffect(() => {
+    y.value = withRepeat(withSequence(withTiming(-12, { duration: 450 }), withTiming(0, { duration: 450 })), -1);
+  }, [y]);
+  const seta = useAnimatedStyle(() => ({ transform: [{ translateY: y.value }] }));
+  return (
+    <Animated.View entering={FadeIn.duration(350)} exiting={FadeOut.duration(300)} style={s.dica} pointerEvents="none">
+      <Animated.View style={seta}><Ionicons name="chevron-up" size={30} color={cores.branco} /></Animated.View>
+      <Text style={s.dicaTexto}>Deslize para cima</Text>
+      <Text style={s.dicaSub}>para ver mais looks</Text>
+    </Animated.View>
+  );
+}
+
 type FeedProps = {
   posts: PostFeed[];
   carregarMais?: () => void;
@@ -215,12 +237,32 @@ export function FeedLista({ posts, carregarMais, inicio = 0, mostrarTopo = true,
     if (!tam || Math.abs(tam.a - height) > 1 || Math.abs(tam.l - width) > 1) setTam({ l: width, a: height });
   };
 
+  const [dica, setDica] = useState(false);
+  const dicaJaVista = useRef(true);
+  useEffect(() => {
+    if (!mostrarTopo) return;
+    let ativo = true;
+    let t: ReturnType<typeof setTimeout> | undefined;
+    AsyncStorage.getItem(CHAVE_DICA).then((v) => {
+      if (!ativo || v) return;
+      dicaJaVista.current = false;
+      setDica(true);
+      t = setTimeout(() => setDica(false), 4500);
+    }).catch(() => undefined);
+    return () => { ativo = false; if (t) clearTimeout(t); };
+  }, [mostrarTopo]);
+
   // Baixa antes as fotos dos 2 próximos posts.
   const lista = useRef(posts);
   useEffect(() => { lista.current = posts; }, [posts]);
   // a FlatList exige que esta função nunca mude de identidade
   const [aoVer] = useState(() => ({ viewableItems }: { viewableItems: { index?: number | null }[] }) => {
     const i = viewableItems[0]?.index ?? 0;
+    if (i > 0 && !dicaJaVista.current) {
+      dicaJaVista.current = true;
+      setDica(false);
+      AsyncStorage.setItem(CHAVE_DICA, '1').catch(() => undefined);
+    }
     const proximos = lista.current.slice(i + 1, i + 3);
     if (proximos.length) Image.prefetch(proximos.map((p) => p.imagem_url), 'memory-disk');
   });
@@ -253,11 +295,15 @@ export function FeedLista({ posts, carregarMais, inicio = 0, mostrarTopo = true,
           onRefresh={atualizar}
         />
       ))}
+      {dica && posts.length > 1 && <DicaDeslizar />}
     </View>
   );
 }
 
 const s = StyleSheet.create({
+  dica: { position: 'absolute', top: '34%', alignSelf: 'center', alignItems: 'center', backgroundColor: 'rgba(20,17,19,0.55)', paddingHorizontal: 22, paddingTop: 10, paddingBottom: 14, borderRadius: 22 },
+  dicaTexto: { fontFamily: fontes.textoSemi, color: cores.branco, fontSize: 16 },
+  dicaSub: { fontFamily: fontes.texto, color: 'rgba(255,255,255,0.85)', fontSize: 13 },
   gradTopo: { position: 'absolute', top: 0, left: 0, right: 0 },
   gradBase: { position: 'absolute', left: 0, right: 0, bottom: 0, height: '58%' },
   topo: { position: 'absolute', top: 0, left: espaco.lg, right: espaco.lg, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
